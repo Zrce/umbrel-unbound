@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unbound — Setup Guide</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.6;
+      padding: 2rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #fff;
+    }
+    .subtitle {
+      color: #888;
+      margin-bottom: 2rem;
+      font-size: 0.95rem;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #112b11;
+      color: #4ade80;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+    }
+    .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+    }
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+      color: #fff;
+    }
+    .card {
+      background: #151515;
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .steps {
+      list-style: none;
+      counter-reset: step;
+    }
+    .steps li {
+      counter-increment: step;
+      padding: 0.6rem 0;
+      padding-left: 2.25rem;
+      position: relative;
+      border-bottom: 1px solid #1e1e1e;
+    }
+    .steps li:last-child { border-bottom: none; }
+    .steps li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      background: #1e1e1e;
+      color: #aaa;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      top: 0.65rem;
+    }
+    code {
+      background: #1e1e1e;
+      color: #f0c674;
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+    }
+    .dns-flow {
+      background: #151515;
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      margin: 1rem 0;
+    }
+    .dns-flow .arrow {
+      color: #555;
+      font-size: 1.2rem;
+      margin: 0.4rem 0;
+    }
+    .dns-flow .node {
+      padding: 0.4rem 0;
+    }
+    .dns-flow .node strong {
+      color: #fff;
+    }
+    .dns-flow .node span {
+      color: #888;
+      font-size: 0.85rem;
+    }
+    img.screenshot {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #252525;
+      margin: 1rem 0;
+    }
+    .info {
+      background: #1a1a2e;
+      border: 1px solid #2a2a4a;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      color: #a0a0d0;
+    }
+    .info strong { color: #c0c0f0; }
+    .features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    .feature {
+      background: #151515;
+      border: 1px solid #252525;
+      border-radius: 10px;
+      padding: 1rem;
+    }
+    .feature strong {
+      display: block;
+      color: #fff;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+    .feature span {
+      color: #888;
+      font-size: 0.8rem;
+    }
+    footer {
+      text-align: center;
+      color: #444;
+      font-size: 0.8rem;
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #1e1e1e;
+    }
+    footer a { color: #666; }
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .links a {
+      display: block;
+      padding: 0.85rem 0;
+      border-bottom: 1px solid #1e1e1e;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .links a:last-child { border-bottom: none; }
+    .links a:hover { background: #1a1a1a; }
+    .links a strong {
+      display: block;
+      color: #7db4f0;
+      font-size: 0.9rem;
+      margin-bottom: 0.15rem;
+    }
+    .links a span {
+      color: #888;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Unbound DNS</h1>
+  <p class="subtitle">Validating, recursive, and caching DNS resolver by NLnet Labs</p>
+  <div class="status">Running on port 5335</div>
+
+  <div class="features">
+    <div class="feature">
+      <strong>DNSSEC</strong>
+      <span>Validates every DNS response</span>
+    </div>
+    <div class="feature">
+      <strong>Recursive</strong>
+      <span>Queries root nameservers directly</span>
+    </div>
+    <div class="feature">
+      <strong>QNAME Minimisation</strong>
+      <span>RFC 7816 privacy protection</span>
+    </div>
+    <div class="feature">
+      <strong>No Third Party</strong>
+      <span>No Google, Cloudflare, or other DNS</span>
+    </div>
+  </div>
+
+  <h2>Connect Pi-hole to Unbound</h2>
+
+  <div class="card">
+    <ol class="steps">
+      <li>Open your <strong>Pi-hole</strong> dashboard</li>
+      <li>Go to <strong>Settings</strong> &rarr; <strong>DNS</strong></li>
+      <li>Remove all upstream DNS servers (uncheck Google, Cloudflare, etc.)</li>
+      <li>Under <strong>Custom DNS servers</strong>, enter <code>127.0.0.1#5335</code></li>
+      <li><strong>Disable</strong> Pi-hole's DNSSEC setting (Unbound handles validation)</li>
+      <li>Click <strong>Save</strong></li>
+    </ol>
+  </div>
+
+  <img class="screenshot" src="img/pihole-dns-setup.png" alt="Pi-hole DNS settings showing 127.0.0.1#5335 as custom upstream">
+
+  <h2>How It Works</h2>
+
+  <div class="dns-flow">
+    <div class="node"><strong>Your Devices</strong></div>
+    <div class="arrow">&darr;</div>
+    <div class="node"><strong>Pi-hole</strong> <span>&mdash; port 53, blocks ads &amp; trackers</span></div>
+    <div class="arrow">&darr;</div>
+    <div class="node"><strong>Unbound</strong> <span>&mdash; port 5335, recursive resolver + DNSSEC</span></div>
+    <div class="arrow">&darr;</div>
+    <div class="node"><strong>Root Nameservers</strong> <span>&mdash; authoritative answers, no middlemen</span></div>
+  </div>
+
+  <div class="info">
+    <strong>Verify it works:</strong> SSH into your Umbrel and run
+    <code>dig @127.0.0.1 -p 5335 example.com</code> &mdash;
+    you should see <code>status: NOERROR</code> with an answer.
+    To test DNSSEC rejection, try <code>dig @127.0.0.1 -p 5335 sigfail.verteiltesysteme.net</code>
+    &mdash; it should return <code>SERVFAIL</code>.
+  </div>
+
+  <h2>Documentation</h2>
+
+  <div class="card links">
+    <a href="https://unbound.docs.nlnetlabs.nl/en/latest/" target="_blank" rel="noopener">
+      <strong>Unbound Documentation</strong>
+      <span>Official docs by NLnet Labs — configuration, tuning, and reference</span>
+    </a>
+    <a href="https://docs.pi-hole.net/guides/dns/unbound/" target="_blank" rel="noopener">
+      <strong>Pi-hole + Unbound Guide</strong>
+      <span>Pi-hole's official guide for setting up Unbound as a recursive resolver</span>
+    </a>
+    <a href="https://github.com/NLnetLabs/unbound-manual/blob/main/source/index.rst" target="_blank" rel="noopener">
+      <strong>Unbound Manual (source)</strong>
+      <span>The full manual source on GitHub — contribute or read the raw docs</span>
+    </a>
+  </div>
+
+  <footer>
+    Unbound by <a href="https://nlnetlabs.nl/projects/unbound/about/">NLnet Labs</a> &middot;
+    <a href="https://github.com/Zrce/umbrel-unbound">GitHub</a>
+  </footer>
+
+</body>
+</html>

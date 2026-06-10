@@ -1,15 +1,31 @@
 version: "3.7"
 
 services:
+  app_proxy:
+    environment:
+      APP_HOST: zrce-unbound_web_1
+      APP_PORT: 80
+
+  web:
+    image: nginx:1.27-alpine-slim@sha256:b947b2630c97622793113555e13332eec85bdc7a0ac6ab697159af78942bb856
+    restart: on-failure
+    volumes:
+      - ${APP_DATA_DIR}/data/web:/usr/share/nginx/html:ro
+    depends_on:
+      init:
+        condition: service_completed_successfully
+
   init:
     image: alpine:3.21@sha256:48b0309ca019d89d40f670aa1bc06e426dc0931948452e8491e3d65087abc07d
     restart: "no"
     volumes:
       - ${APP_DATA_DIR}/data/unbound/custom.conf.d:/config
+      - ${APP_DATA_DIR}/data/web:/web
     entrypoint: /bin/sh
     command:
       - -c
       - |
+        mkdir -p /config /web/img
         cat > /config/pihole.conf << 'CONF'
         server:
             interface: 0.0.0.0
@@ -23,6 +39,8 @@ services:
             aggressive-nsec: yes
             qname-minimisation: yes
         CONF
+        wget -qO /web/index.html https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/web/index.html
+        wget -qO /web/img/pihole-dns-setup.png https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/web/img/pihole-dns-setup.png 2>/dev/null || true
 
   server:
     image: klutchell/unbound:1.25.1@sha256:4718d579152d49a3eaf7cbc1ce67f4e2e0d6f396be8f604a2416a94e7a250be8

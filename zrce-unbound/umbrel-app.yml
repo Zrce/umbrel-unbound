@@ -31,7 +31,7 @@ developer: "NLnet Labs"
 website: "https://nlnetlabs.nl/projects/unbound/about/"
 repo: "https://github.com/Zrce/umbrel-unbound"
 support: "https://github.com/Zrce/umbrel-unbound/issues"
-port: 5335
+port: 8335
 path: ""
 defaultUsername: ""
 defaultPassword: ""

@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+  server:
+    image: klutchell/unbound:1.25.1@sha256:26bcae217bfd477625db0de7db414fce79f880de20fff72b2c4b1f2af8d6c616
+    restart: on-failure
+    ports:
+      - "5335:5335/tcp"
+      - "5335:5335/udp"
+    volumes:
+      - ./data/unbound/custom.conf.d:/etc/unbound/custom.conf.d:ro
+    healthcheck:
+      test: ["CMD", "drill-hc", "@127.0.0.1", "-p", "5335", "cloudflare.com"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s

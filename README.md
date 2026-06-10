@@ -4,56 +4,40 @@ A community app store for [Umbrel](https://umbrel.com).
 
 ## Apps
 
-### Pi-hole + Unbound
+### Unbound
 
-Network-wide ad blocking with a built-in recursive DNS resolver. Unbound, developed by NLnet Labs, resolves your queries directly against root nameservers with DNSSEC validation — no third-party DNS providers involved.
+A validating, recursive, and caching DNS resolver by NLnet Labs. Resolves queries directly against root nameservers with DNSSEC validation — no third-party DNS providers involved.
 
 ## Installation
 
 1. Open your Umbrel dashboard
 2. Go to **Settings > App Stores**
 3. Add this repository URL: `https://github.com/Zrce/umbrel-unbound`
-4. The app will appear in the Umbrel App Store under **Networking**
+4. Install **Unbound** from the Networking category
 
-## After Installing
+## Connecting Pi-hole to Unbound
 
-1. Open the Pi-hole dashboard from your Umbrel home screen
-2. Log in with your Umbrel password
-3. Point your devices' or router's DNS to your Umbrel's IP address
-4. Enjoy ad-free, private DNS resolution
+After installing both Pi-hole and Unbound on your Umbrel:
 
-## Architecture
+1. Open the Pi-hole dashboard
+2. Go to **Settings > DNS**
+3. Remove all upstream DNS servers
+4. Add a custom upstream: `127.0.0.1#5335`
+5. **Disable** Pi-hole's DNSSEC setting (Unbound handles DNSSEC validation)
+6. Save
+
+Your DNS flow becomes:
 
 ```
-Devices on your network
-        │
-        ▼ (port 53)
-    ┌────────┐
-    │ Pi-hole │  ← blocks ads, caches queries
-    └────┬───┘
-         │ (port 5335, internal only)
-    ┌────▼─────┐
-    │ Unbound   │  ← recursive resolver, DNSSEC validation
-    └────┬─────┘
-         │
-         ▼
-  Root nameservers → TLD → Authoritative
+Your devices → Pi-hole (port 53, ad blocking) → Unbound (port 5335, recursive resolver) → Root nameservers
 ```
 
 ## Development
 
-Test locally with Docker Compose:
+Test locally:
 
 ```bash
-cd wio-unbound-pihole
-APP_DATA_DIR=./app-data APP_PASSWORD=test1234 docker compose up
+cd zrce-unbound
+docker compose up
+dig @127.0.0.1 -p 5335 example.com
 ```
-
-Pi-hole web UI: `http://localhost:8054/admin/`
-
-## Still Needed
-
-- [ ] `icon.svg` — 256x256 SVG app icon (no rounded corners)
-- [ ] Gallery screenshots — 3 PNG images at 1440x900px in `gallery/`
-- [ ] Verify Docker image SHA256 digests on your machine
-- [ ] Test on Umbrel (Raspberry Pi or x86)

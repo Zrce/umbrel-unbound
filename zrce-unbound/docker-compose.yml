@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   server:
-    image: klutchell/unbound:1.25.1@sha256:26bcae217bfd477625db0de7db414fce79f880de20fff72b2c4b1f2af8d6c616
+    image: klutchell/unbound:1.25.1@sha256:4718d579152d49a3eaf7cbc1ce67f4e2e0d6f396be8f604a2416a94e7a250be8
     restart: on-failure
     ports:
       - "5335:5335/tcp"

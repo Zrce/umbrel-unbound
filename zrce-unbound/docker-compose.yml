@@ -1,6 +1,29 @@
 version: "3.7"
 
 services:
+  init:
+    image: alpine:3.21@sha256:48b0309ca019d89d40f670aa1bc06e426dc0931948452e8491e3d65087abc07d
+    restart: "no"
+    volumes:
+      - ${APP_DATA_DIR}/data/unbound/custom.conf.d:/config
+    entrypoint: /bin/sh
+    command:
+      - -c
+      - |
+        cat > /config/pihole.conf << 'CONF'
+        server:
+            interface: 0.0.0.0
+            port: 5335
+            access-control: 127.0.0.0/8 allow
+            access-control: 10.0.0.0/8 allow
+            access-control: 172.16.0.0/12 allow
+            access-control: 192.168.0.0/16 allow
+            hide-identity: yes
+            hide-version: yes
+            aggressive-nsec: yes
+            qname-minimisation: yes
+        CONF
+
   server:
     image: klutchell/unbound:1.25.1@sha256:4718d579152d49a3eaf7cbc1ce67f4e2e0d6f396be8f604a2416a94e7a250be8
     restart: on-failure
@@ -8,7 +31,10 @@ services:
       - "5335:5335/tcp"
       - "5335:5335/udp"
     volumes:
-      - ./data/unbound/custom.conf.d:/etc/unbound/custom.conf.d:ro
+      - ${APP_DATA_DIR}/data/unbound/custom.conf.d:/etc/unbound/custom.conf.d:ro
+    depends_on:
+      init:
+        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "drill-hc", "@127.0.0.1", "-p", "5335", "cloudflare.com"]
       interval: 30s

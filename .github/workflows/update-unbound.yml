@@ -1,0 +1,94 @@
+name: Update Unbound
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"  # Every Monday at 08:00 UTC
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  check-update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get current version from docker-compose
+        id: current
+        run: |
+          CURRENT_TAG=$(grep -oP 'klutchell/unbound:\K[^@]+' zrce-unbound/docker-compose.yml)
+          echo "tag=$CURRENT_TAG" >> "$GITHUB_OUTPUT"
+          echo "Current version: $CURRENT_TAG"
+
+      - name: Get latest release from NLnet Labs
+        id: latest
+        run: |
+          LATEST=$(curl -s https://api.github.com/repos/NLnetLabs/unbound/releases/latest | jq -r '.tag_name' | sed 's/^release-//')
+          echo "version=$LATEST" >> "$GITHUB_OUTPUT"
+          echo "Latest upstream version: $LATEST"
+
+      - name: Check if klutchell/unbound image exists for this version
+        id: check
+        run: |
+          LATEST="${{ steps.latest.outputs.version }}"
+          CURRENT="${{ steps.current.outputs.tag }}"
+
+          if [ "$LATEST" = "$CURRENT" ]; then
+            echo "Already up to date ($CURRENT)"
+            echo "update=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Check if klutchell/unbound has this version
+          if docker manifest inspect "klutchell/unbound:$LATEST" > /dev/null 2>&1; then
+            echo "New version available: $LATEST"
+            echo "update=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "klutchell/unbound:$LATEST not yet available, skipping"
+            echo "update=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Get multi-arch manifest digest
+        if: steps.check.outputs.update == 'true'
+        id: digest
+        run: |
+          LATEST="${{ steps.latest.outputs.version }}"
+          DIGEST=$(docker manifest inspect "klutchell/unbound:$LATEST" 2>/dev/null | jq -r '.digest // empty')
+
+          if [ -z "$DIGEST" ]; then
+            # Fallback: pull and get digest
+            docker pull "klutchell/unbound:$LATEST"
+            DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' "klutchell/unbound:$LATEST" | cut -d@ -f2)
+          fi
+
+          echo "digest=$DIGEST" >> "$GITHUB_OUTPUT"
+          echo "Digest: $DIGEST"
+
+      - name: Update docker-compose.yml
+        if: steps.check.outputs.update == 'true'
+        run: |
+          LATEST="${{ steps.latest.outputs.version }}"
+          DIGEST="${{ steps.digest.outputs.digest }}"
+          CURRENT="${{ steps.current.outputs.tag }}"
+
+          sed -i "s|klutchell/unbound:${CURRENT}@sha256:[a-f0-9]*|klutchell/unbound:${LATEST}@${DIGEST}|" zrce-unbound/docker-compose.yml
+
+          echo "Updated docker-compose.yml:"
+          grep klutchell zrce-unbound/docker-compose.yml
+
+      - name: Update umbrel-app.yml version
+        if: steps.check.outputs.update == 'true'
+        run: |
+          LATEST="${{ steps.latest.outputs.version }}"
+          sed -i "s/^version: .*/version: \"${LATEST}\"/" zrce-unbound/umbrel-app.yml
+          sed -i "s/Initial release.*/Updated to Unbound v${LATEST}./" zrce-unbound/umbrel-app.yml
+
+      - name: Commit and push
+        if: steps.check.outputs.update == 'true'
+        run: |
+          LATEST="${{ steps.latest.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add zrce-unbound/docker-compose.yml zrce-unbound/umbrel-app.yml
+          git commit -m "Update Unbound to v${LATEST}"
+          git push

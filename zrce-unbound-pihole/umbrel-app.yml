@@ -1,5 +1,5 @@
 manifestVersion: 1
-id: wio-unbound-pihole
+id: zrce-unbound-pihole
 category: networking
 name: "Pi-hole + Unbound"
 version: "1.0.0"
@@ -27,8 +27,8 @@ releaseNotes: >-
   Initial release with Pi-hole v2026.05 and Unbound v1.25.1.
 developer: "Pi-hole & NLnet Labs"
 website: "https://pi-hole.net"
-repo: "https://github.com/wio/umbrel-unbound"
-support: "https://github.com/wio/umbrel-unbound/issues"
+repo: "https://github.com/Zrce/umbrel-unbound"
+support: "https://github.com/Zrce/umbrel-unbound/issues"
 port: 8054
 path: ""
 defaultUsername: ""
@@ -41,5 +41,5 @@ gallery:
   - 1.png
   - 2.png
   - 3.png
-submitter: "Wio"
+submitter: "Zrce"
 submission: ""

@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: wio-unbound-pihole_web_1
+      APP_HOST: zrce-unbound-pihole_web_1
       APP_PORT: 8054
 
   web:

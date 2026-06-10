@@ -1,4 +1,4 @@
-# Wio's Umbrel App Store
+# Zrce's Umbrel App Store
 
 A community app store for [Umbrel](https://umbrel.com).
 
@@ -12,7 +12,7 @@ Network-wide ad blocking with a built-in recursive DNS resolver. Unbound, develo
 
 1. Open your Umbrel dashboard
 2. Go to **Settings > App Stores**
-3. Add this repository URL: `https://github.com/wio/umbrel-unbound`
+3. Add this repository URL: `https://github.com/Zrce/umbrel-unbound`
 4. The app will appear in the Umbrel App Store under **Networking**
 
 ## After Installing

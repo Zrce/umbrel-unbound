@@ -1,0 +1,45 @@
+manifestVersion: 1
+id: wio-unbound-pihole
+category: networking
+name: "Pi-hole + Unbound"
+version: "1.0.0"
+tagline: "Network-wide ad blocking with a private recursive DNS resolver"
+description: >-
+  Combines Pi-hole with Unbound in a single app for complete DNS privacy.
+  Pi-hole blocks ads and trackers at the network level. Unbound, developed
+  by NLnet Labs, is a validating, recursive, and caching DNS resolver
+  designed to be fast and lean. It resolves your queries directly against
+  root nameservers — no third-party DNS providers like Google or Cloudflare
+  are involved.
+
+
+  Unbound validates every response with DNSSEC and uses query name
+  minimisation (RFC 7816) to limit the information sent to upstream
+  nameservers. Aggressive NSEC caching reduces unnecessary lookups. The
+  result is a fully self-contained DNS stack on your Umbrel that you
+  control end to end.
+
+
+  After installing, point your devices or router DNS to your Umbrel's IP
+  address. The Pi-hole dashboard lets you monitor queries, manage
+  blocklists, and whitelist domains.
+releaseNotes: >-
+  Initial release with Pi-hole v2026.05 and Unbound v1.25.1.
+developer: "Pi-hole & NLnet Labs"
+website: "https://pi-hole.net"
+repo: "https://github.com/wio/umbrel-unbound"
+support: "https://github.com/wio/umbrel-unbound/issues"
+port: 8054
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+deterministicPassword: true
+torCompatible: true
+permissions: []
+dependencies: []
+gallery:
+  - 1.png
+  - 2.png
+  - 3.png
+submitter: "Wio"
+submission: ""

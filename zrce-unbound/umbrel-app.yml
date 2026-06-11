@@ -2,6 +2,7 @@ manifestVersion: 1
 id: zrce-unbound
 category: networking
 name: "Unbound"
+icon: https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/images/icon.svg
 version: "1.25.1"
 tagline: "Validating, recursive, and caching DNS resolver for full privacy"
 description: >-

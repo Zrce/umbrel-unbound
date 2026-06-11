@@ -22,9 +22,3 @@ After installing both Pi-hole and Unbound on your Umbrel:
 4. Add a custom upstream: `127.0.0.1#5335`
 5. **Disable** Pi-hole's DNSSEC setting (Unbound handles DNSSEC validation)
 6. Save
-
-Your DNS flow becomes:
-
-```
-Your devices → Pi-hole (port 53, ad blocking) → Unbound (port 5335, recursive resolver) → Root nameservers
-```

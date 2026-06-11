@@ -40,5 +40,9 @@ deterministicPassword: false
 torCompatible: true
 permissions: []
 dependencies: []
+gallery:
+  - https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/images/1.png
+  - https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/images/2.png
+  - https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/images/3.png
 submitter: "Zrce"
 submission: ""

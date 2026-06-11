@@ -1,10 +1,6 @@
-# Zrce's Umbrel App Store
+# Unbound for Umbrel
 
-A community app store for [Umbrel](https://umbrel.com).
-
-## Apps
-
-### Unbound
+This installs Unbound on your Umbrel without using the command line.
 
 A validating, recursive, and caching DNS resolver by NLnet Labs. Resolves queries directly against root nameservers with DNSSEC validation — no third-party DNS providers involved.
 
@@ -30,14 +26,4 @@ Your DNS flow becomes:
 
 ```
 Your devices → Pi-hole (port 53, ad blocking) → Unbound (port 5335, recursive resolver) → Root nameservers
-```
-
-## Development
-
-Test locally:
-
-```bash
-cd unbound
-docker compose up
-dig @127.0.0.1 -p 5335 example.com
 ```

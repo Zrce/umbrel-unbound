@@ -196,25 +196,6 @@
   <p class="subtitle">Validating, recursive, and caching DNS resolver by NLnet Labs</p>
   <div class="status">Running on port 5335</div>
 
-  <div class="features">
-    <div class="feature">
-      <strong>DNSSEC</strong>
-      <span>Validates every DNS response</span>
-    </div>
-    <div class="feature">
-      <strong>Recursive</strong>
-      <span>Queries root nameservers directly</span>
-    </div>
-    <div class="feature">
-      <strong>QNAME Minimisation</strong>
-      <span>RFC 7816 privacy protection</span>
-    </div>
-    <div class="feature">
-      <strong>No Third Party</strong>
-      <span>No Google, Cloudflare, or other DNS</span>
-    </div>
-  </div>
-
   <h2>Connect Pi-hole to Unbound</h2>
 
   <div class="card">
@@ -228,19 +209,7 @@
     </ol>
   </div>
 
-  <img class="screenshot" src="img/pihole-dns-setup.png" alt="Pi-hole DNS settings showing 127.0.0.1#5335 as custom upstream">
-
-  <h2>How It Works</h2>
-
-  <div class="dns-flow">
-    <div class="node"><strong>Your Devices</strong></div>
-    <div class="arrow">&darr;</div>
-    <div class="node"><strong>Pi-hole</strong> <span>&mdash; port 53, blocks ads &amp; trackers</span></div>
-    <div class="arrow">&darr;</div>
-    <div class="node"><strong>Unbound</strong> <span>&mdash; port 5335, recursive resolver + DNSSEC</span></div>
-    <div class="arrow">&darr;</div>
-    <div class="node"><strong>Root Nameservers</strong> <span>&mdash; authoritative answers, no middlemen</span></div>
-  </div>
+  <img class="screenshot" src="https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/web/img/pihole-dns-setup.png" alt="Pi-hole DNS settings showing 127.0.0.1#5335 as custom upstream">
 
   <div class="info">
     <strong>Verify it works:</strong> SSH into your Umbrel and run

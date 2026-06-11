@@ -6,10 +6,11 @@ A validating, recursive, and caching DNS resolver by NLnet Labs. Resolves querie
 
 ## Installation
 
-1. Open your Umbrel dashboard
-2. Go to **Settings > App Stores**
-3. Add this repository URL: `https://github.com/Zrce/umbrel-unbound`
-4. Install **Unbound** from the Networking category
+1. Open the **App Store** on your Umbrel
+2. In the top right corner, click the **three dots** and open **Community App Stores**
+3. Add `https://github.com/Zrce/umbrel-unbound`
+4. Open it and click **Unbound**
+5. Click **Install**
 
 ## Connecting Pi-hole to Unbound
 

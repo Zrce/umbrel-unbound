@@ -25,7 +25,7 @@ services:
     command:
       - -c
       - |
-        mkdir -p /config /web/img
+        mkdir -p /config /web
         cat > /config/pihole.conf << 'CONF'
         server:
             interface: 0.0.0.0
@@ -40,7 +40,6 @@ services:
             qname-minimisation: yes
         CONF
         wget -qO /web/index.html https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/web/index.html
-        wget -qO /web/img/pihole-dns-setup.png https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/web/img/pihole-dns-setup.png 2>/dev/null || true
 
   server:
     image: klutchell/unbound:1.25.1@sha256:4718d579152d49a3eaf7cbc1ce67f4e2e0d6f396be8f604a2416a94e7a250be8

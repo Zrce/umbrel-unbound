@@ -37,7 +37,7 @@ Your devices → Pi-hole (port 53, ad blocking) → Unbound (port 5335, recursiv
 Test locally:
 
 ```bash
-cd zrce-unbound
+cd unbound
 docker compose up
 dig @127.0.0.1 -p 5335 example.com
 ```

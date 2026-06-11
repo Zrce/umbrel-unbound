@@ -16,7 +16,7 @@ jobs:
       - name: Get current version from docker-compose
         id: current
         run: |
-          CURRENT_TAG=$(grep -oP 'klutchell/unbound:\K[^@]+' zrce-unbound/docker-compose.yml)
+          CURRENT_TAG=$(grep -oP 'klutchell/unbound:\K[^@]+' unbound/docker-compose.yml)
           echo "tag=$CURRENT_TAG" >> "$GITHUB_OUTPUT"
           echo "Current version: $CURRENT_TAG"
 
@@ -71,17 +71,17 @@ jobs:
           DIGEST="${{ steps.digest.outputs.digest }}"
           CURRENT="${{ steps.current.outputs.tag }}"
 
-          sed -i "s|klutchell/unbound:${CURRENT}@sha256:[a-f0-9]*|klutchell/unbound:${LATEST}@${DIGEST}|" zrce-unbound/docker-compose.yml
+          sed -i "s|klutchell/unbound:${CURRENT}@sha256:[a-f0-9]*|klutchell/unbound:${LATEST}@${DIGEST}|" unbound/docker-compose.yml
 
           echo "Updated docker-compose.yml:"
-          grep klutchell zrce-unbound/docker-compose.yml
+          grep klutchell unbound/docker-compose.yml
 
       - name: Update umbrel-app.yml version
         if: steps.check.outputs.update == 'true'
         run: |
           LATEST="${{ steps.latest.outputs.version }}"
-          sed -i "s/^version: .*/version: \"${LATEST}\"/" zrce-unbound/umbrel-app.yml
-          sed -i "s/Initial release.*/Updated to Unbound v${LATEST}./" zrce-unbound/umbrel-app.yml
+          sed -i "s/^version: .*/version: \"${LATEST}\"/" unbound/umbrel-app.yml
+          sed -i "s/Initial release.*/Updated to Unbound v${LATEST}./" unbound/umbrel-app.yml
 
       - name: Commit and push
         if: steps.check.outputs.update == 'true'
@@ -89,6 +89,6 @@ jobs:
           LATEST="${{ steps.latest.outputs.version }}"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add zrce-unbound/docker-compose.yml zrce-unbound/umbrel-app.yml
+          git add unbound/docker-compose.yml unbound/umbrel-app.yml
           git commit -m "Update Unbound to v${LATEST}"
           git push

@@ -3,7 +3,7 @@ version: "3.7"
 services:
   app_proxy:
     environment:
-      APP_HOST: zrce-unbound_web_1
+      APP_HOST: unbound_web_1
       APP_PORT: 80
 
   web:
@@ -39,7 +39,7 @@ services:
             aggressive-nsec: yes
             qname-minimisation: yes
         CONF
-        wget -qO /web/index.html https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/web/index.html
+        wget -qO /web/index.html https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/unbound/web/index.html
 
   server:
     image: klutchell/unbound:1.25.1@sha256:4718d579152d49a3eaf7cbc1ce67f4e2e0d6f396be8f604a2416a94e7a250be8

@@ -1,8 +1,8 @@
 manifestVersion: 1
-id: zrce-unbound
+id: unbound
 category: networking
 name: "Unbound"
-icon: https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/images/icon.svg
+icon: https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/unbound/images/icon.svg
 version: "1.25.1"
 tagline: "Validating, recursive, and caching DNS resolver for full privacy"
 description: >-
@@ -41,8 +41,8 @@ torCompatible: true
 permissions: []
 dependencies: []
 gallery:
-  - https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/images/1.png
-  - https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/images/2.png
-  - https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/zrce-unbound/images/3.png
+  - https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/unbound/images/1.png
+  - https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/unbound/images/2.png
+  - https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/unbound/images/3.png
 submitter: "Zrce"
 submission: ""

@@ -3,7 +3,7 @@ id: unbound
 category: networking
 name: "Unbound"
 icon: https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/unbound/images/icon.svg
-version: "1.25.1"
+version: "1.25.2"
 tagline: "Validating, recursive, and caching DNS resolver for full privacy"
 description: >-
   Unbound is a validating, recursive, and caching DNS resolver developed by
@@ -27,7 +27,7 @@ description: >-
   Unbound has no web interface. It runs as a background DNS service on
   port 5335.
 releaseNotes: >-
-  Initial release with Unbound v1.25.1.
+  Updated to Unbound v1.25.2.
 developer: "NLnet Labs"
 website: "https://nlnetlabs.nl/projects/unbound/about/"
 repo: "https://github.com/Zrce/umbrel-unbound"

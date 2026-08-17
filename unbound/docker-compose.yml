@@ -42,7 +42,7 @@ services:
         wget -qO /web/index.html https://raw.githubusercontent.com/Zrce/umbrel-unbound/main/unbound/web/index.html
 
   server:
-    image: klutchell/unbound:1.25.2@sha256:f5cf9592d516969dc652f2b44f582f885cec047f9daee539881e0392aa6f29e6
+    image: klutchell/unbound:1.26.0@sha256:5020cfe1218aeda38777f88279220162e602c3a44efc684550dbf46137106a16
     restart: on-failure
     ports:
       - "5335:5335/tcp"
